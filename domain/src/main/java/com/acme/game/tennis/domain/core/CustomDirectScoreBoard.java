@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class CustomDirectScoreBoard extends BasicScoreBoard {
+public class CustomDirectScoreBoard extends ClassicScoreBoard {
 
     private CustomDirectScoreBoard(Integer server, Integer receiver) {
         super(server, receiver);

@@ -1,7 +1,7 @@
 package com.acme.game.tennis.domain;
 
-import com.acme.game.tennis.domain.core.ClassicGame;
 import com.acme.game.tennis.domain.core.ClassicScoreBoard;
+import com.acme.game.tennis.domain.core.ClassicGame;
 import com.acme.game.tennis.domain.core.CustomResetScoreBoard;
 import com.acme.game.tennis.domain.core.CustomDirectScoreBoard;
 import com.acme.game.tennis.domain.model.Player;

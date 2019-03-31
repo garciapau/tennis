@@ -5,7 +5,7 @@ import com.acme.game.tennis.domain.model.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomResetScoreBoard extends BasicScoreBoard {
+public class CustomResetScoreBoard extends ClassicScoreBoard {
 
     private CustomResetScoreBoard(Integer server, Integer receiver) {
         super(server, receiver);

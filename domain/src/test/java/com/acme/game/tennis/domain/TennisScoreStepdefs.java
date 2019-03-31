@@ -28,10 +28,10 @@ public class TennisScoreStepdefs implements En {
             String currentScore = game.getCurrentScore();
             Assert.assertEquals(currentScore, expectedScore);
         });
-        Then("^the server should win$", () -> {
+        Then("^the (.*) should win$", (String expectedWinner) -> {
             Optional<Player> winner = game.getWinner();
             Assert.assertTrue(winner.isPresent());
-            Assert.assertEquals("server", winner.map(Player::getName).orElse("None"));
+            Assert.assertEquals(expectedWinner, winner.map(Player::getName).orElse("None"));
         });
 
     }

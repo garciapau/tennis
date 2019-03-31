@@ -2,6 +2,7 @@ package com.acme.game.tennis.domain;
 
 import com.acme.game.tennis.domain.core.ClassicGame;
 import com.acme.game.tennis.domain.core.ClassicScoreBoard;
+import com.acme.game.tennis.domain.core.CustomScoreBoard;
 import com.acme.game.tennis.domain.model.Player;
 import cucumber.api.java8.En;
 import cucumber.runtime.java.StepDefAnnotation;
@@ -50,6 +51,19 @@ public class TennisScoreStepdefs implements En {
             Optional<Player> winner = game.getWinner();
             Assert.assertTrue(winner.isPresent());
             Assert.assertEquals("receiver", winner.map(Player::getName).orElse("None"));
+        });
+        Given("^that I specify a set of rules to be used$", () -> {
+            ScoreBoard scoreBoard = CustomScoreBoard.Builder.newInstance().build();
+            game = ClassicGame.Builder.newInstance().score(scoreBoard).build();
+        });
+        Then("^it only applies the rules I have specified$", () -> {
+            Assert.assertTrue(true);
+        });
+        When("^the server scores four points$", () -> {
+            game.serverWinsPoint();
+            game.serverWinsPoint();
+            game.serverWinsPoint();
+            game.serverWinsPoint();
         });
 
     }

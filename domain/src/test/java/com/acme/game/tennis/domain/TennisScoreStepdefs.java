@@ -37,6 +37,20 @@ public class TennisScoreStepdefs implements En {
             Optional<Player> winner = game.getWinner();
             Assert.assertFalse(winner.isPresent());
         });
+        Given("^that I don’t specify any specific ruleset$", () -> {
+            game = ClassicGame.Builder.newInstance().build();
+        });
+        When("^I use the library$", () -> {
+            game.receiverWinsPoint();
+            game.receiverWinsPoint();
+            game.receiverWinsPoint();
+            game.receiverWinsPoint();
+        });
+        Then("^it applies the default rules specified in Feature 1$", () -> {
+            Optional<Player> winner = game.getWinner();
+            Assert.assertTrue(winner.isPresent());
+            Assert.assertEquals("receiver", winner.map(Player::getName).orElse("None"));
+        });
 
     }
 }

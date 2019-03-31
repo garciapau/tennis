@@ -46,6 +46,9 @@ public class ClassicGame implements Game {
         }
 
         public Game build() {
+            if (scoreBoard == null) {
+                this.scoreBoard = ClassicScoreBoard.Builder.newInstance().build();
+            }
             return new ClassicGame(scoreBoard);
         }
     }

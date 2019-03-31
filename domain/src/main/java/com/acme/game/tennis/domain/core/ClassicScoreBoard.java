@@ -17,20 +17,9 @@ public class ClassicScoreBoard implements ScoreBoard {
         this.players[Player.RECEIVER.ordinal()] = receiver;
     }
 
-    private void populateTranslators() {
-        pointsTranslator.put(0, "0");
-        pointsTranslator.put(1, "15");
-        pointsTranslator.put(2, "30");
-        pointsTranslator.put(3, "40");
-        pointsTranslator.put(4, "A");
-    }
-
-    private Integer getServerScore() {
-        return players[Player.SERVER.ordinal()];
-    }
-
-    private Integer getReceiverScore() {
-        return players[Player.RECEIVER.ordinal()];
+    @Override
+    public void annotatePoint(Player player) {
+        players[player.ordinal()] = players[player.ordinal()] + 1;
     }
 
     @Override
@@ -47,15 +36,26 @@ public class ClassicScoreBoard implements ScoreBoard {
     }
 
     @Override
-    public void annotatePoint(Player player) {
-        players[player.ordinal()] = players[player.ordinal()] + 1;
-    }
-
-    @Override
     public Optional<Player> getWinner() {
         if (playerHasWon(Player.SERVER, Player.RECEIVER)) return Optional.of(Player.SERVER);
         if (playerHasWon(Player.RECEIVER, Player.SERVER)) return Optional.of(Player.RECEIVER);
         return Optional.empty();
+    }
+
+    private void populateTranslators() {
+        pointsTranslator.put(0, "0");
+        pointsTranslator.put(1, "15");
+        pointsTranslator.put(2, "30");
+        pointsTranslator.put(3, "40");
+        pointsTranslator.put(4, "A");
+    }
+
+    private Integer getServerScore() {
+        return players[Player.SERVER.ordinal()];
+    }
+
+    private Integer getReceiverScore() {
+        return players[Player.RECEIVER.ordinal()];
     }
 
     private boolean deuce() {

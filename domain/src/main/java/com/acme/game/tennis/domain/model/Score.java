@@ -17,12 +17,22 @@ public class Score {
         return receiver;
     }
 
+    public void annotatePoint(String player) {
+        if ("server".equals(player)) server = server + 15;
+        else receiver = receiver + 15;
+    }
+
     public static class Builder{
         private Integer server;
         private Integer receiver;
 
+        private Builder(Integer server, Integer receiver) {
+            this.server = server;
+            this.receiver = receiver;
+        }
+
         public static Builder newInstance(){
-            return new Builder();
+            return new Builder(0, 0);
         }
 
         public Builder server(Integer points) {

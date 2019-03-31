@@ -16,6 +16,7 @@ public class TennisScoreStepdefs implements En {
             game = ClassicGame.Builder.newInstance().score(score).build();
         });
         When("^the server wins a point$", () -> {
+            game.serverWinsPoint();
         });
         Then("^current score is (\\d+):(\\d+)$", (Integer server, Integer receiver) -> {
             Assert.assertEquals(game.currentScore().getServer(), server);

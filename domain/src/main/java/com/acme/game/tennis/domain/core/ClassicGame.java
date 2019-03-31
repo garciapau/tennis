@@ -15,6 +15,11 @@ public class ClassicGame implements Game {
         return this.score;
     }
 
+    @Override
+    public void serverWinsPoint() {
+        score.annotatePoint("server");
+    }
+
     public static class Builder{
         private Score score;
 

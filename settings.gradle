@@ -1,2 +1,4 @@
 rootProject.name = 'tennis'
+include 'domain'
+findProject(':domain')?.name = 'tennis-domain'
 

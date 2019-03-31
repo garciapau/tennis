@@ -72,6 +72,7 @@ public class ClassicScoreBoard implements ScoreBoard {
             literalsTranslator.put("15", 1);
             literalsTranslator.put("30", 2);
             literalsTranslator.put("40", 3);
+            literalsTranslator.put("A", 4);
         }
 
         public static Builder newInstance(){

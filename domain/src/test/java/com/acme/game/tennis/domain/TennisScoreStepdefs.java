@@ -1,9 +1,9 @@
 package com.acme.game.tennis.domain;
 
-import com.acme.game.tennis.domain.core.ClassicScoreBoard;
 import com.acme.game.tennis.domain.core.ClassicGame;
-import com.acme.game.tennis.domain.core.CustomResetScoreBoard;
+import com.acme.game.tennis.domain.core.ClassicScoreBoard;
 import com.acme.game.tennis.domain.core.CustomDirectScoreBoard;
+import com.acme.game.tennis.domain.core.CustomResetScoreBoard;
 import com.acme.game.tennis.domain.model.Player;
 import cucumber.api.java8.En;
 import cucumber.runtime.java.StepDefAnnotation;
@@ -20,8 +20,12 @@ public class TennisScoreStepdefs implements En {
             ScoreBoard classicScoreBoard = ClassicScoreBoard.Builder.newInstance().server(serverScore).receiver(receiverScore).build();
             game = ClassicGame.Builder.newInstance().score(classicScoreBoard).build();
         });
-        When("^the server wins a point$", () -> game.serverWinsPoint());
-        When("^the receiver wins a point$", () -> game.receiverWinsPoint());
+        When("^the server wins (\\d+) points$", (Integer numPoints) -> {
+            for (int i = 0; i < numPoints; i++) { game.serverWinsPoint(); }
+        });
+        When("^the receiver wins (\\d+) points$", (Integer numPoints) -> {
+            for (int i = 0; i < numPoints; i++) { game.receiverWinsPoint(); }
+        });
         Then("^current score should be (.*)$", (String expectedScore) -> {
             String currentScore = game.getCurrentScore();
             Assert.assertEquals(currentScore, expectedScore);
@@ -75,6 +79,5 @@ public class TennisScoreStepdefs implements En {
         Then("^the score should be (.*)$", (String score) -> {
             Assert.assertEquals(score, game.getCurrentScore());
         });
-
     }
 }

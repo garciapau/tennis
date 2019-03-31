@@ -13,5 +13,5 @@ import org.junit.runner.RunWith;
     },
     features = "src/test/resources/features"
 )
-public class TennisScoreTestSuite {
+public class TennisClassicScoreBoardTestSuite {
 }

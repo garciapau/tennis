@@ -2,44 +2,44 @@ package com.acme.game.tennis.domain.core;
 
 import com.acme.game.tennis.domain.Game;
 import com.acme.game.tennis.domain.model.Player;
-import com.acme.game.tennis.domain.model.Score;
+import com.acme.game.tennis.domain.ScoreBoard;
 
 public class ClassicGame implements Game {
-    private Score score;
+    private ScoreBoard scoreBoard;
 
-    private ClassicGame(Score score) {
-        this.score = score;
+    private ClassicGame(ScoreBoard scoreBoard) {
+        this.scoreBoard = scoreBoard;
     }
 
     @Override
-    public Score currentScore() {
-        return this.score;
+    public String getCurrentScore() {
+        return this.scoreBoard.getScoreboard();
     }
 
     @Override
     public void serverWinsPoint() {
-        score.annotatePoint(Player.SERVER);
+        scoreBoard.annotatePoint(Player.SERVER);
     }
 
     @Override
     public void receiverWinsPoint() {
-        score.annotatePoint(Player.RECEIVER);
+        scoreBoard.annotatePoint(Player.RECEIVER);
     }
 
     public static class Builder{
-        private Score score;
+        private ScoreBoard scoreBoard;
 
         public static Builder newInstance(){
             return new Builder();
         }
 
-        public Builder score(Score score) {
-            this.score = score;
+        public Builder score(ScoreBoard scoreBoard) {
+            this.scoreBoard = scoreBoard;
             return this;
         }
 
         public Game build() {
-            return new ClassicGame(score);
+            return new ClassicGame(scoreBoard);
         }
     }
 }

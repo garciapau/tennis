@@ -1,7 +1,7 @@
 package com.acme.game.tennis.domain;
 
 import com.acme.game.tennis.domain.core.ClassicGame;
-import com.acme.game.tennis.domain.model.Score;
+import com.acme.game.tennis.domain.core.ClassicScoreBoard;
 import cucumber.api.java8.En;
 import cucumber.runtime.java.StepDefAnnotation;
 import org.junit.Assert;
@@ -11,9 +11,9 @@ public class TennisScoreStepdefs implements En {
     private Game game;
 
     public TennisScoreStepdefs() {
-        Given("^the score is (\\d+):(\\d+)$", (Integer server, Integer receiver) -> {
-            Score score = Score.Builder.newInstance().server(server).receiver(receiver).build();
-            game = ClassicGame.Builder.newInstance().score(score).build();
+        Given("^the score is (.*):(.*)$", (String server, String receiver) -> {
+            ScoreBoard scoreBoard = ClassicScoreBoard.Builder.newInstance().server(server).receiver(receiver).build();
+            game = ClassicGame.Builder.newInstance().score(scoreBoard).build();
         });
         When("^the server wins a point$", () -> {
             game.serverWinsPoint();
@@ -21,9 +21,10 @@ public class TennisScoreStepdefs implements En {
         When("^the receiver wins a point$", () -> {
             game.receiverWinsPoint();
         });
-        Then("^current score is (\\d+):(\\d+)$", (Integer server, Integer receiver) -> {
-            Assert.assertEquals(game.currentScore().getServer(), server);
-            Assert.assertEquals(game.currentScore().getReceiver(), receiver);
+        Then("^current score is (.*)$", (String expectedScore) -> {
+            String currentScore = game.getCurrentScore();
+            Assert.assertEquals(currentScore, expectedScore);
         });
+
     }
 }

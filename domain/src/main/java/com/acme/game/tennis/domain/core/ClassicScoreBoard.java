@@ -8,14 +8,13 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ClassicScoreBoard implements ScoreBoard {
-    private Integer server;
-    private Integer receiver;
+    private Integer[] players = new Integer[Player.values().length];
     private static Map<Integer, String> pointsTranslator = new HashMap<>();
 
     private ClassicScoreBoard(Integer server, Integer receiver) {
         populateTranslators();
-        this.server = server;
-        this.receiver = receiver;
+        this.players[Player.SERVER.ordinal()] = server;
+        this.players[Player.RECEIVER.ordinal()] = receiver;
     }
 
     private void populateTranslators() {
@@ -27,11 +26,11 @@ public class ClassicScoreBoard implements ScoreBoard {
     }
 
     private Integer getServer() {
-        return server;
+        return players[Player.SERVER.ordinal()];
     }
 
     private Integer getReceiver() {
-        return receiver;
+        return players[Player.RECEIVER.ordinal()];
     }
 
     @Override
@@ -69,23 +68,18 @@ public class ClassicScoreBoard implements ScoreBoard {
 
     @Override
     public void annotatePoint(Player player) {
-        if (player == Player.SERVER) server = calculatePoints(server);
-        else receiver = calculatePoints(receiver);
+        players[player.ordinal()] = players[player.ordinal()] + 1;
     }
 
     @Override
     public Optional<Player> getWinner() {
-        if (playerHasWon(server, receiver)) return Optional.of(Player.SERVER);
-        if (playerHasWon(receiver, server)) return Optional.of(Player.RECEIVER);
+        if (playerHasWon(Player.SERVER, Player.RECEIVER)) return Optional.of(Player.SERVER);
+        if (playerHasWon(Player.RECEIVER, Player.SERVER)) return Optional.of(Player.RECEIVER);
         return Optional.empty();
     }
 
-    private boolean playerHasWon(Integer winner, Integer looser) {
-        return (winner > 2 && winner > looser + 1);
-    }
-
-    private int calculatePoints(Integer currentPoints) {
-        return currentPoints+1;
+    private boolean playerHasWon(Player winner, Player looser) {
+        return (players[winner.ordinal()] > 2 && players[winner.ordinal()] > players[looser.ordinal()] + 1);
     }
 
     public static class Builder{

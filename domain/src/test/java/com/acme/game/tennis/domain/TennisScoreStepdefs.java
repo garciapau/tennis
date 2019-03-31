@@ -18,12 +18,12 @@ public class TennisScoreStepdefs implements En {
         When("^the server wins a point$", () -> {
             game.serverWinsPoint();
         });
+        When("^the receiver wins a point$", () -> {
+            game.receiverWinsPoint();
+        });
         Then("^current score is (\\d+):(\\d+)$", (Integer server, Integer receiver) -> {
             Assert.assertEquals(game.currentScore().getServer(), server);
             Assert.assertEquals(game.currentScore().getReceiver(), receiver);
-        });
-        When("^the receiver wins a point$", () -> {
-            game.receiverWinsPoint();
         });
     }
 }

@@ -26,25 +26,41 @@ public class ClassicScoreBoard implements ScoreBoard {
         pointsTranslator.put(4, "A");
     }
 
-    public Integer getServer() {
+    private Integer getServer() {
         return server;
     }
 
-    public Integer getReceiver() {
+    private Integer getReceiver() {
         return receiver;
     }
 
     @Override
     public String getScoreboard() {
         String calculatedScore = "";
-        if (getServer()<4 && getReceiver()<4)
+        if (lowerPoints())
             calculatedScore = String.format("%s:%s", translatePoint(getServer()), translatePoint(getReceiver()));
         else {
-            if (getServer() == getReceiver()) calculatedScore = String.format("%s:%s", translatePoint(3), translatePoint(3));
-            if (getServer() > getReceiver()) calculatedScore = String.format("%s:%s", translatePoint(4), translatePoint(3));
-            if (getServer() < getReceiver()) calculatedScore = String.format("%s:%s", translatePoint(3), translatePoint(4));
+            if (deuce()) calculatedScore = String.format("%s:%s", translatePoint(3), translatePoint(3));
+            if (advantageServer()) calculatedScore = String.format("%s:%s", translatePoint(4), translatePoint(3));
+            if (advantageReceiver()) calculatedScore = String.format("%s:%s", translatePoint(3), translatePoint(4));
         }
         return calculatedScore;
+    }
+
+    private boolean deuce() {
+        return getServer() == getReceiver();
+    }
+
+    private boolean advantageReceiver() {
+        return getServer() < getReceiver();
+    }
+
+    private boolean advantageServer() {
+        return getServer() > getReceiver();
+    }
+
+    private boolean lowerPoints() {
+        return getServer()<4 && getReceiver()<4;
     }
 
     private String translatePoint(Integer point) {
@@ -59,9 +75,13 @@ public class ClassicScoreBoard implements ScoreBoard {
 
     @Override
     public Optional<Player> getWinner() {
-        if (server > 2 && server > receiver + 1) return Optional.of(Player.SERVER);
-        if (receiver > 2 && receiver > server + 1) return Optional.of(Player.RECEIVER);
+        if (playerHasWon(server, receiver)) return Optional.of(Player.SERVER);
+        if (playerHasWon(receiver, server)) return Optional.of(Player.RECEIVER);
         return Optional.empty();
+    }
+
+    private boolean playerHasWon(Integer winner, Integer looser) {
+        return (winner > 2 && winner > looser + 1);
     }
 
     private int calculatePoints(Integer currentPoints) {
@@ -85,16 +105,6 @@ public class ClassicScoreBoard implements ScoreBoard {
 
         public static Builder newInstance(){
             return new Builder(0, 0);
-        }
-
-        public Builder server(Integer points) {
-            this.server = points;
-            return this;
-        }
-
-        public Builder receiver(Integer points) {
-            this.receiver = points;
-            return this;
         }
 
         public Builder server(String points) {

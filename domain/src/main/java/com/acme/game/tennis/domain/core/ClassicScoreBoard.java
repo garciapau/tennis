@@ -25,11 +25,11 @@ public class ClassicScoreBoard implements ScoreBoard {
         pointsTranslator.put(4, "A");
     }
 
-    private Integer getServer() {
+    private Integer getServerScore() {
         return players[Player.SERVER.ordinal()];
     }
 
-    private Integer getReceiver() {
+    private Integer getReceiverScore() {
         return players[Player.RECEIVER.ordinal()];
     }
 
@@ -37,7 +37,7 @@ public class ClassicScoreBoard implements ScoreBoard {
     public String getScoreboard() {
         String calculatedScore = "";
         if (lowerPoints())
-            calculatedScore = String.format("%s:%s", translatePoint(getServer()), translatePoint(getReceiver()));
+            calculatedScore = String.format("%s:%s", translatePoint(getServerScore()), translatePoint(getReceiverScore()));
         else {
             if (deuce()) calculatedScore = String.format("%s:%s", translatePoint(3), translatePoint(3));
             if (advantageServer()) calculatedScore = String.format("%s:%s", translatePoint(4), translatePoint(3));
@@ -59,19 +59,19 @@ public class ClassicScoreBoard implements ScoreBoard {
     }
 
     private boolean deuce() {
-        return getServer() == getReceiver();
+        return getServerScore() == getReceiverScore();
     }
 
     private boolean advantageReceiver() {
-        return getServer() < getReceiver();
+        return getServerScore() == getReceiverScore() - 1;
     }
 
     private boolean advantageServer() {
-        return getServer() > getReceiver();
+        return getServerScore() == getReceiverScore() + 1;
     }
 
     private boolean lowerPoints() {
-        return getServer()<4 && getReceiver()<4;
+        return getServerScore()<4 || getReceiverScore()<4;
     }
 
     private String translatePoint(Integer point) {

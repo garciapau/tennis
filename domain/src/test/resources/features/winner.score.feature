@@ -11,3 +11,10 @@ Feature: Winning Points are Scored Correctly
     Given the score is 15:15
     When the receiver wins a point
     Then nobody has won yet
+  Scenario:
+    Given the score is 0:0
+    And the server wins a point
+    And the server wins a point
+    And the server wins a point
+    When the server wins a point
+    Then the server should win

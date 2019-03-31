@@ -24,7 +24,7 @@ public class TennisScoreStepdefs implements En {
         When("^the receiver wins a point$", () -> {
             game.receiverWinsPoint();
         });
-        Then("^current score is (.*)$", (String expectedScore) -> {
+        Then("^current score should be (.*)$", (String expectedScore) -> {
             String currentScore = game.getCurrentScore();
             Assert.assertEquals(currentScore, expectedScore);
         });

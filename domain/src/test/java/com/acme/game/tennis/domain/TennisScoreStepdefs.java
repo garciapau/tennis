@@ -33,6 +33,10 @@ public class TennisScoreStepdefs implements En {
             Assert.assertTrue(winner.isPresent());
             Assert.assertEquals(expectedWinner, winner.map(Player::getName).orElse("None"));
         });
+        Then("^nobody has won yet$", () -> {
+            Optional<Player> winner = game.getWinner();
+            Assert.assertFalse(winner.isPresent());
+        });
 
     }
 }

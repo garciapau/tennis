@@ -46,6 +46,18 @@ public class ClassicScoreBoard implements ScoreBoard {
         return calculatedScore;
     }
 
+    @Override
+    public void annotatePoint(Player player) {
+        players[player.ordinal()] = players[player.ordinal()] + 1;
+    }
+
+    @Override
+    public Optional<Player> getWinner() {
+        if (playerHasWon(Player.SERVER, Player.RECEIVER)) return Optional.of(Player.SERVER);
+        if (playerHasWon(Player.RECEIVER, Player.SERVER)) return Optional.of(Player.RECEIVER);
+        return Optional.empty();
+    }
+
     private boolean deuce() {
         return getServer() == getReceiver();
     }
@@ -64,18 +76,6 @@ public class ClassicScoreBoard implements ScoreBoard {
 
     private String translatePoint(Integer point) {
         return pointsTranslator.get(point);
-    }
-
-    @Override
-    public void annotatePoint(Player player) {
-        players[player.ordinal()] = players[player.ordinal()] + 1;
-    }
-
-    @Override
-    public Optional<Player> getWinner() {
-        if (playerHasWon(Player.SERVER, Player.RECEIVER)) return Optional.of(Player.SERVER);
-        if (playerHasWon(Player.RECEIVER, Player.SERVER)) return Optional.of(Player.RECEIVER);
-        return Optional.empty();
     }
 
     private boolean playerHasWon(Player winner, Player looser) {

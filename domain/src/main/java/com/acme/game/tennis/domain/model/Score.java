@@ -17,9 +17,13 @@ public class Score {
         return receiver;
     }
 
-    public void annotatePoint(String player) {
-        if ("server".equals(player)) server = server + 15;
-        else receiver = receiver + 15;
+    public void annotatePoint(Player player) {
+        if (player == Player.SERVER) server = calculatePoints(server);
+        else receiver = calculatePoints(receiver);
+    }
+
+    private int calculatePoints(Integer currentPoints) {
+        return currentPoints==30?40:currentPoints+15;
     }
 
     public static class Builder{

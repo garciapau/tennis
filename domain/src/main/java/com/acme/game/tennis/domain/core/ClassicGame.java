@@ -1,6 +1,7 @@
 package com.acme.game.tennis.domain.core;
 
 import com.acme.game.tennis.domain.Game;
+import com.acme.game.tennis.domain.model.Player;
 import com.acme.game.tennis.domain.model.Score;
 
 public class ClassicGame implements Game {
@@ -17,12 +18,12 @@ public class ClassicGame implements Game {
 
     @Override
     public void serverWinsPoint() {
-        score.annotatePoint("server");
+        score.annotatePoint(Player.SERVER);
     }
 
     @Override
     public void receiverWinsPoint() {
-        score.annotatePoint("receiver");
+        score.annotatePoint(Player.RECEIVER);
     }
 
     public static class Builder{

@@ -1,5 +1,6 @@
 package com.acme.game.tennis.domain.core;
 
+import com.acme.game.tennis.domain.exception.GameFinishedException;
 import com.acme.game.tennis.domain.model.Player;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ public class CustomResetScoreBoard extends ClassicScoreBoard {
     }
 
     @Override
-    public void annotatePoint(Player player) {
+    public void annotatePoint(Player player) throws GameFinishedException {
         super.annotatePoint(player);
         if (getServerScore()==3 && getReceiverScore()==3) {
             super.resetScore();

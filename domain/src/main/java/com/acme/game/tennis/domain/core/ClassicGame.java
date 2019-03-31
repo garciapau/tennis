@@ -1,6 +1,7 @@
 package com.acme.game.tennis.domain.core;
 
 import com.acme.game.tennis.domain.Game;
+import com.acme.game.tennis.domain.exception.GameFinishedException;
 import com.acme.game.tennis.domain.model.Player;
 import com.acme.game.tennis.domain.ScoreBoard;
 
@@ -25,12 +26,16 @@ public class ClassicGame implements Game {
 
     @Override
     public void serverWinsPoint() {
-        scoreBoard.annotatePoint(Player.SERVER);
+        try {
+            scoreBoard.annotatePoint(Player.SERVER);
+        } catch (GameFinishedException e) { /* Do nothing, just ignore */ }
     }
 
     @Override
     public void receiverWinsPoint() {
-        scoreBoard.annotatePoint(Player.RECEIVER);
+        try {
+            scoreBoard.annotatePoint(Player.RECEIVER);
+        } catch (GameFinishedException e) { /* Do nothing, just ignore */ }
     }
 
     @Override

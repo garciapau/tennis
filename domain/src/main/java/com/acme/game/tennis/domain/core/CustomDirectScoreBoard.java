@@ -1,5 +1,6 @@
 package com.acme.game.tennis.domain.core;
 
+import com.acme.game.tennis.domain.exception.GameFinishedException;
 import com.acme.game.tennis.domain.model.Player;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class CustomDirectScoreBoard extends ClassicScoreBoard {
     }
 
     @Override
-    public void annotatePoint(Player player) {
+    public void annotatePoint(Player player) throws GameFinishedException {
         if (super.getServerScore()<4 && super.getReceiverScore()<4) {
             super.annotatePoint(player);
         }

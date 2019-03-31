@@ -1,6 +1,7 @@
 package com.acme.game.tennis.domain.core;
 
 import com.acme.game.tennis.domain.ScoreBoard;
+import com.acme.game.tennis.domain.exception.GameFinishedException;
 import com.acme.game.tennis.domain.model.Player;
 
 import java.util.HashMap;
@@ -18,7 +19,8 @@ public class ClassicScoreBoard implements ScoreBoard {
     }
 
     @Override
-    public void annotatePoint(Player player) {
+    public void annotatePoint(Player player) throws GameFinishedException {
+        if (getWinner().isPresent()) throw new GameFinishedException();
         players[player.ordinal()] = players[player.ordinal()] + 1;
     }
 
@@ -69,23 +71,23 @@ public class ClassicScoreBoard implements ScoreBoard {
     }
 
     private boolean advantageReceiver() {
-        return getServerScore() == getReceiverScore() - 1;
+        return getReceiverScore()>3 && (getServerScore() == getReceiverScore() - 1);
     }
 
     private boolean advantageServer() {
-        return getServerScore() == getReceiverScore() + 1;
+        return getServerScore()>3 && (getServerScore() == getReceiverScore() + 1);
     }
 
     private boolean lowerPoints() {
         return getServerScore()<4 || getReceiverScore()<4;
     }
 
-    String translatePoint(Integer point) {
+    protected String translatePoint(Integer point) {
         return pointsTranslator.get(point);
     }
 
     private boolean playerHasWon(Player winner, Player looser) {
-        return (players[winner.ordinal()] > 2 && players[winner.ordinal()] > players[looser.ordinal()] + 1);
+        return (players[winner.ordinal()] > 3 && players[winner.ordinal()] > players[looser.ordinal()] + 1);
     }
 
     public static class Builder{

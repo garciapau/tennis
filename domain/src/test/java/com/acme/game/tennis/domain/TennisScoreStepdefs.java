@@ -4,6 +4,7 @@ import com.acme.game.tennis.domain.core.ClassicGame;
 import com.acme.game.tennis.domain.core.ClassicScoreBoard;
 import com.acme.game.tennis.domain.core.CustomDirectScoreBoard;
 import com.acme.game.tennis.domain.core.CustomResetScoreBoard;
+import com.acme.game.tennis.domain.exception.GameFinishedException;
 import com.acme.game.tennis.domain.model.Player;
 import cucumber.api.java8.En;
 import cucumber.runtime.java.StepDefAnnotation;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class TennisScoreStepdefs implements En {
     private Game game;
 
-    public TennisScoreStepdefs() {
+    public TennisScoreStepdefs() throws GameFinishedException {
         Given("^the score is (.*):(.*)$", (String serverScore, String receiverScore) -> {
             ScoreBoard classicScoreBoard = ClassicScoreBoard.Builder.newInstance().server(serverScore).receiver(receiverScore).build();
             game = ClassicGame.Builder.newInstance().score(classicScoreBoard).build();
@@ -78,6 +79,8 @@ public class TennisScoreStepdefs implements En {
         });
         Then("^the score should be (.*)$", (String score) -> {
             Assert.assertEquals(score, game.getCurrentScore());
+        });
+        Then("^is unexpected scenario is just ignored$", () -> {
         });
     }
 }

@@ -15,3 +15,8 @@ Feature: Winning Points are Scored Correctly
     Given the score is 0:0
     When the server wins 4 points
     Then the server should win
+  Scenario:
+    Given the score is 0:0
+    And the server wins 4 points
+    When the server wins 1 points
+    Then is unexpected scenario is just ignored

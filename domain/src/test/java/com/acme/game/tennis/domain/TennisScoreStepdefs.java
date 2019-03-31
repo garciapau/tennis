@@ -2,7 +2,8 @@ package com.acme.game.tennis.domain;
 
 import com.acme.game.tennis.domain.core.ClassicGame;
 import com.acme.game.tennis.domain.core.ClassicScoreBoard;
-import com.acme.game.tennis.domain.core.CustomScoreBoard;
+import com.acme.game.tennis.domain.core.CustomResetScoreBoard;
+import com.acme.game.tennis.domain.core.CustomDirectScoreBoard;
 import com.acme.game.tennis.domain.model.Player;
 import cucumber.api.java8.En;
 import cucumber.runtime.java.StepDefAnnotation;
@@ -15,16 +16,12 @@ public class TennisScoreStepdefs implements En {
     private Game game;
 
     public TennisScoreStepdefs() {
-        Given("^the score is (.*):(.*)$", (String server, String receiver) -> {
-            ScoreBoard scoreBoard = ClassicScoreBoard.Builder.newInstance().server(server).receiver(receiver).build();
-            game = ClassicGame.Builder.newInstance().score(scoreBoard).build();
+        Given("^the score is (.*):(.*)$", (String serverScore, String receiverScore) -> {
+            ScoreBoard classicScoreBoard = ClassicScoreBoard.Builder.newInstance().server(serverScore).receiver(receiverScore).build();
+            game = ClassicGame.Builder.newInstance().score(classicScoreBoard).build();
         });
-        When("^the server wins a point$", () -> {
-            game.serverWinsPoint();
-        });
-        When("^the receiver wins a point$", () -> {
-            game.receiverWinsPoint();
-        });
+        When("^the server wins a point$", () -> game.serverWinsPoint());
+        When("^the receiver wins a point$", () -> game.receiverWinsPoint());
         Then("^current score should be (.*)$", (String expectedScore) -> {
             String currentScore = game.getCurrentScore();
             Assert.assertEquals(currentScore, expectedScore);
@@ -38,9 +35,8 @@ public class TennisScoreStepdefs implements En {
             Optional<Player> winner = game.getWinner();
             Assert.assertFalse(winner.isPresent());
         });
-        Given("^that I don’t specify any specific ruleset$", () -> {
-            game = ClassicGame.Builder.newInstance().build();
-        });
+        Given("^that I don’t specify any specific ruleset$", () ->
+            game = ClassicGame.Builder.newInstance().build());
         When("^I use the library$", () -> {
             game.receiverWinsPoint();
             game.receiverWinsPoint();
@@ -52,18 +48,32 @@ public class TennisScoreStepdefs implements En {
             Assert.assertTrue(winner.isPresent());
             Assert.assertEquals("receiver", winner.map(Player::getName).orElse("None"));
         });
-        Given("^that I specify a set of rules to be used$", () -> {
-            ScoreBoard scoreBoard = CustomScoreBoard.Builder.newInstance().build();
-            game = ClassicGame.Builder.newInstance().score(scoreBoard).build();
+        Given("^that I specify the custom direct set of rules to be used$", () -> {
+            ScoreBoard directScoreBoard = CustomDirectScoreBoard.Builder.newInstance().build();
+            game = ClassicGame.Builder.newInstance().score(directScoreBoard).build();
         });
-        Then("^it only applies the rules I have specified$", () -> {
-            Assert.assertTrue(true);
-        });
+        Then("^it only applies the rules I have specified$", () ->
+            Assert.assertTrue(game.getScoreBoard() instanceof CustomDirectScoreBoard));
         When("^the server scores four points$", () -> {
             game.serverWinsPoint();
             game.serverWinsPoint();
             game.serverWinsPoint();
             game.serverWinsPoint();
+        });
+        Given("^that I specify the custom reset set of rules to be used$", () -> {
+            ScoreBoard resetScoreBoard = CustomResetScoreBoard.Builder.newInstance().build();
+            game = ClassicGame.Builder.newInstance().score(resetScoreBoard).build();
+        });
+        When("^the players have deuce$", () -> {
+            game.serverWinsPoint();
+            game.serverWinsPoint();
+            game.serverWinsPoint();
+            game.receiverWinsPoint();
+            game.receiverWinsPoint();
+            game.receiverWinsPoint();
+        });
+        Then("^the score should be (.*)$", (String score) -> {
+            Assert.assertEquals(score, game.getCurrentScore());
         });
 
     }

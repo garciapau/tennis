@@ -12,4 +12,6 @@ public interface Game {
     void receiverWinsPoint();
 
     Optional<Player> getWinner();
+
+    ScoreBoard getScoreBoard();
 }

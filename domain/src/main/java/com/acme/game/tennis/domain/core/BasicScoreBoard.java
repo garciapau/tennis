@@ -11,7 +11,7 @@ public class BasicScoreBoard implements ScoreBoard {
     private Integer[] players = new Integer[Player.values().length];
     private static Map<Integer, String> pointsTranslator = new HashMap<>();
 
-    private BasicScoreBoard(Integer server, Integer receiver) {
+    BasicScoreBoard(Integer server, Integer receiver) {
         populateTranslators();
         this.players[Player.SERVER.ordinal()] = server;
         this.players[Player.RECEIVER.ordinal()] = receiver;
@@ -43,6 +43,12 @@ public class BasicScoreBoard implements ScoreBoard {
         if (playerHasWon(Player.SERVER, Player.RECEIVER)) return Optional.of(Player.SERVER);
         if (playerHasWon(Player.RECEIVER, Player.SERVER)) return Optional.of(Player.RECEIVER);
         return Optional.empty();
+    }
+
+    @Override
+    public void resetScore() {
+        players[Player.SERVER.ordinal()] = 0;
+        players[Player.RECEIVER.ordinal()] = 0;
     }
 
     private void populateTranslators() {

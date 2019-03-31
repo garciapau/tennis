@@ -7,15 +7,20 @@ import com.acme.game.tennis.domain.ScoreBoard;
 import java.util.Optional;
 
 public class ClassicGame implements Game {
-    private ScoreBoard scoreBoard;
 
+    private ScoreBoard scoreBoard;
     private ClassicGame(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
     }
 
     @Override
+    public ScoreBoard getScoreBoard() {
+        return this.scoreBoard;
+    }
+
+    @Override
     public String getCurrentScore() {
-        return this.scoreBoard.getScoreboard();
+        return scoreBoard.getScoreboard();
     }
 
     @Override

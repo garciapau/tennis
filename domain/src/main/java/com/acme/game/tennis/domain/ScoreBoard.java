@@ -10,4 +10,6 @@ public interface ScoreBoard {
     void annotatePoint(Player player);
 
     Optional<Player> getWinner();
+
+    void resetScore();
 }

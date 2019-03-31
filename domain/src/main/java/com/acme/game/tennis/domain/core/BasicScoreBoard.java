@@ -11,13 +11,13 @@ public class BasicScoreBoard implements ScoreBoard {
     private Integer[] players = new Integer[Player.values().length];
     private static Map<Integer, String> pointsTranslator = new HashMap<>();
 
-    BasicScoreBoard(Integer server, Integer receiver) {
+    private BasicScoreBoard(Integer server, Integer receiver) {
         populateTranslators();
         this.players[Player.SERVER.ordinal()] = server;
         this.players[Player.RECEIVER.ordinal()] = receiver;
     }
 
-    public BasicScoreBoard() {
+    BasicScoreBoard() {
     }
 
     @Override

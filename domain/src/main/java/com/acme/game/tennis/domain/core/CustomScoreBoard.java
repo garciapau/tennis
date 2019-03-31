@@ -15,9 +15,7 @@ public class CustomScoreBoard extends BasicScoreBoard {
 
     @Override
     public String getScoreboard() {
-        String calculatedScore = "";
-        calculatedScore = String.format("%s:%s", translatePoint(getServerScore()), translatePoint(getReceiverScore()));
-        return calculatedScore;
+        return String.format("%s:%s", translatePoint(getServerScore()), translatePoint(getReceiverScore()));
     }
 
     @Override

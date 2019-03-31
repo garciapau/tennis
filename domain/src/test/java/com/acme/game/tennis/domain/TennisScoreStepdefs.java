@@ -2,9 +2,12 @@ package com.acme.game.tennis.domain;
 
 import com.acme.game.tennis.domain.core.ClassicGame;
 import com.acme.game.tennis.domain.core.ClassicScoreBoard;
+import com.acme.game.tennis.domain.model.Player;
 import cucumber.api.java8.En;
 import cucumber.runtime.java.StepDefAnnotation;
 import org.junit.Assert;
+
+import java.util.Optional;
 
 @StepDefAnnotation
 public class TennisScoreStepdefs implements En {
@@ -24,6 +27,11 @@ public class TennisScoreStepdefs implements En {
         Then("^current score is (.*)$", (String expectedScore) -> {
             String currentScore = game.getCurrentScore();
             Assert.assertEquals(currentScore, expectedScore);
+        });
+        Then("^the server should win$", () -> {
+            Optional<Player> winner = game.getWinner();
+            Assert.assertTrue(winner.isPresent());
+            Assert.assertEquals("server", winner.map(Player::getName).orElse("None"));
         });
 
     }

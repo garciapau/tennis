@@ -4,6 +4,8 @@ import com.acme.game.tennis.domain.Game;
 import com.acme.game.tennis.domain.model.Player;
 import com.acme.game.tennis.domain.ScoreBoard;
 
+import java.util.Optional;
+
 public class ClassicGame implements Game {
     private ScoreBoard scoreBoard;
 
@@ -24,6 +26,11 @@ public class ClassicGame implements Game {
     @Override
     public void receiverWinsPoint() {
         scoreBoard.annotatePoint(Player.RECEIVER);
+    }
+
+    @Override
+    public Optional<Player> getWinner() {
+        return scoreBoard.getWinner();
     }
 
     public static class Builder{

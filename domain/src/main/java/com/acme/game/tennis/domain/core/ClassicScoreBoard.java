@@ -5,6 +5,7 @@ import com.acme.game.tennis.domain.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ClassicScoreBoard implements ScoreBoard {
     private Integer server;
@@ -54,6 +55,13 @@ public class ClassicScoreBoard implements ScoreBoard {
     public void annotatePoint(Player player) {
         if (player == Player.SERVER) server = calculatePoints(server);
         else receiver = calculatePoints(receiver);
+    }
+
+    @Override
+    public Optional<Player> getWinner() {
+        if (server > 2 && server > receiver + 1) return Optional.of(Player.SERVER);
+        if (receiver > 2 && receiver > server + 1) return Optional.of(Player.RECEIVER);
+        return Optional.empty();
     }
 
     private int calculatePoints(Integer currentPoints) {

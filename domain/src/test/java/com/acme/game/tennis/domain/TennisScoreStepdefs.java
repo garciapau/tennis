@@ -22,5 +22,8 @@ public class TennisScoreStepdefs implements En {
             Assert.assertEquals(game.currentScore().getServer(), server);
             Assert.assertEquals(game.currentScore().getReceiver(), receiver);
         });
+        When("^the receiver wins a point$", () -> {
+            game.receiverWinsPoint();
+        });
     }
 }

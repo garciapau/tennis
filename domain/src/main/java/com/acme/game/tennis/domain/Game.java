@@ -6,4 +6,6 @@ public interface Game {
     Score currentScore();
 
     void serverWinsPoint();
+
+    void receiverWinsPoint();
 }
